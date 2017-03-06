@@ -2,6 +2,7 @@
 package br.senac.tads.pi3a.agenda;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,10 +34,10 @@ public class MetodoDao {
                 Pessoa pessoa = new Pessoa();
                 pessoa.setId(resultados.getLong("ID_CONTATO"));
                 pessoa.setNome(resultados.getString("NM_CONTATO"));
-                pessoa.setDt_nascimento(resultados.getDate("DT_NASCIMENTO"));
+                pessoa.setData_nascimento(resultados.getDate("DT_NASCIMENTO"));
                 pessoa.setEmail(resultados.getString("VL_EMAIL"));
                 pessoa.setTelefone(resultados.getString("VL_TELEFONE"));
-                pessoa.setDt_cadastro(resultados.getTimestamp("DT_CADASTRO"));
+                pessoa.setData_cadastro(resultados.getTimestamp("DT_CADASTRO"));
                 pessoas.add(pessoa);
             }
             conn.close();
@@ -69,16 +70,16 @@ public class MetodoDao {
         PreparedStatement stmt = null;
         Connection conn = null;
         Conexao conexao = new Conexao();
-        String sql = "INSERT INTO TB_CONTATO (NM_CONTATO, DT_NASCIMENTO, VL_TELEFONE, VL_EMAIL, DT_CADASTRO)"
+        String sql = "INSERT INTO TB_CONTATO (NM_CONTATO, DATA_NASCIMENTO, VL_TELEFONE, VL_EMAIL, DATA_CADASTRO)"
                 + "VALUES(?,?,?,?,?)";
         try {
             conn = conexao.obterConexao();
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, pessoa.getNome());
-            stmt.setDate(2, pessoa.getDt_nascimento());
+            stmt.setDate(2, (Date) pessoa.getData_nascimento());
             stmt.setString(3, pessoa.getTelefone());
             stmt.setString(4, pessoa.getEmail());
-            stmt.setTimestamp(5, pessoa.getDt_cadastro());
+            stmt.setTimestamp(5, pessoa.getData_cadastro());
             if (stmt.executeUpdate() > 0) {
                 return true;
             }
@@ -122,7 +123,7 @@ public class MetodoDao {
                 pessoa.setNome(resultado.getString("NM_CONTATO"));
                 pessoa.setEmail(resultado.getString("VL_EMAIL"));
                 pessoa.setTelefone(resultado.getString("VL_TELEFONE"));
-                pessoa.setDt_nascimento(resultado.getDate("DT_NASCIMENTO"));
+                pessoa.setData_nascimento(resultado.getDate("DT_NASCIMENTO"));
             }
         }catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Agenda.class.getName()).log(Level.SEVERE, null, ex);
@@ -159,10 +160,10 @@ public class MetodoDao {
             conn = conexao.obterConexao();
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, pessoa.getNome());
-            stmt.setDate(2, pessoa.getDt_nascimento());
+            stmt.setDate(2, pessoa.getData_nascimento());
             stmt.setString(3, pessoa.getTelefone());
             stmt.setString(4, pessoa.getEmail());
-            stmt.setTimestamp(5, pessoa.getDt_cadastro());
+            stmt.setTimestamp(5, pessoa.getData_cadastro());
             if (stmt.executeUpdate() > 0) {
                 return true;
             }
